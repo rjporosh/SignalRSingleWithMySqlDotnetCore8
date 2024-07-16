@@ -1,0 +1,59 @@
+﻿@page "/Chat"
+@model ChatModel
+@using Microsoft.AspNetCore.SignalR;
+@using Newtonsoft.Json;
+@using Database.Models;
+
+@{
+    ViewData["Title"] = "Chat";
+    var userJson = TempData["UserJson"] as string;
+    var user = JsonConvert.DeserializeObject<User>(userJson);
+    var username = TempData["Username"] as string;
+    var userid = TempData["Userid"] as string;
+
+    // Set the username as a JavaScript variable
+    <script>
+        var username = '@username'; // Ensure username is properly enclosed in quotes
+        var userid = '@userid'; // Ensure username is properly enclosed in quotes
+    </script>
+}
+
+<h1>Welcome, @username, to the Chat</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">Connection Id</div>
+        <div class="col-6"><span id="connectionId" /></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-2">User</div>
+        <div class="col-4"><input type="text" id="userInput" value="@Html.Raw(username)" /></div>
+    </div>
+    <div class="row">
+        <div class="col-2">Message</div>
+        <div class="col-4"><input type="text" id="messageInput" /></div>
+    </div>
+    <div class="row">
+        <div class="col-2">Receiver Id</div>
+        <div class="col-4"><input type="text" id="receiverId" /></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">
+            <input type="button" id="sendToUser" value="Send Message" />&nbsp;&nbsp;
+            <input type="button" id="sendButton" value="Send Message to All" />
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <ul id="messagesList"></ul>
+    </div>
+</div>
